@@ -25,7 +25,7 @@ public:
     auto name = p.getName();
     auto pos = positions[name];
 
-    return !fields[pos]->canMove(p);
+    return fields[pos]->canMove(p);
   }
   /*
     Zmienia pozycję gracza `p` o `dPosition` pól.
@@ -42,7 +42,8 @@ public:
       fields[pos]->onPass(p);
     }
 
-    fields[++pos]->onStay(p);
+    pos = (pos + 1) % nFields;
+    fields[pos]->onStay(p);
     positions[name] = pos;
   }
 
