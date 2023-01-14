@@ -1,1 +1,7 @@
 .svn
+.vscode
+got
+expected
+nsq
+vgcore.*
+worldcup_example
