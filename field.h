@@ -1,19 +1,20 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include <map>
+#include <string>
+#include <unordered_map>
 
 #include "player.h"
 
 class Field {
 public:
-  Field() = default;
   virtual ~Field() = 0;
-  virtual void onPass(Player &p) {}
-  virtual void onStay(Player &p) {}
-  virtual bool canMove(const Player &p) const { return true; }
-  virtual void giveStatus(Player &p) {}
-  virtual void onLeave(Player &p) {}
+  virtual void onPass([[maybe_unused]] Player &p) {}
+  virtual void onStay([[maybe_unused]] Player &p) {}
+  virtual bool canMove([[maybe_unused]] const Player &p) const { return true; }
+  virtual std::string giveStatus(const Player &p) = 0;
+  virtual void onLeave([[maybe_unused]] Player &p) {}
+  virtual std::string getName() = 0;
 };
 
 class Game : public Field {
@@ -23,6 +24,8 @@ public:
   ~Game() = default;
 
   void onPass(Player &p) { accumulated += p.takeMoney(penalty); }
+  std::string giveStatus([[maybe_unused]] Player &p) { return "w grze"; }
+  std::string getName() { return "Mecz z " + title; }
 
   void onStay(Player &p) {
     p.giveMoney(static_cast<unsigned int>(weight * accumulated));
@@ -40,10 +43,11 @@ public:
   YellowCard(unsigned int timeout) : timeout(timeout), players({}) {}
   ~YellowCard() = default;
   void onStay(Player &p) { players.insert({p.getName(), timeout}); }
-  void giveStatus(Player &p) {
-    p.setStatus("*** czekanie: " + std::to_string(players.at(p.getName())--) +
-                " ***");
+  std::string giveStatus(Player &p) {
+    return "*** czekanie: " + std::to_string(players.at(p.getName())--) +
+           " ***";
   }
+  std::string getName() { return "żółta kartka"; }
   void onLeave(Player &p) { players.erase(p.getName()); }
   bool canMove(Player &p) const {
     return !players.contains(p.getName()) || players.at(p.getName()) == 0;
@@ -51,7 +55,7 @@ public:
 
 protected:
   unsigned int timeout;
-  std::map<const std::string &, unsigned int> players;
+  std::unordered_map<std::string, unsigned int> players;
 };
 
 // implementacje pól

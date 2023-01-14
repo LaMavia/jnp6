@@ -1,43 +1,40 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "resetable.h"
 #include <string>
 
-class Player {
+class Player : public Resetable {
 public:
-  Player(std::string name) : name(name), money(1000), status("w grze") {}
+  Player(std::string name) : name(name) { reset(); }
   ~Player() = default;
-  void setStatus(std::string newStatus) { 
-    if (status == "*** bankrut ***") {
-      return;
-    }
-
-    status = newStatus;
-   }
   void giveMoney(unsigned int m) { money += m; }
   unsigned int takeMoney(unsigned int m) {
     if (m >= money) {
       auto res = money;
-      
       money = 0;
-      setStatus("*** bankrut ***");
+      bankrupted = true;
 
       return res;
     } else {
       money -= m;
-
       return m;
     }
   }
 
-  const std::string& getName() {
-    return name;
+  unsigned int getMoney() const { return money; }
+  const std::string &getName() const { return name; }
+  bool isStillInGame() const { return !bankrupted; }
+
+  void reset() {
+    money = 1000;
+    bankrupted = false;
   }
 
 private:
   std::string name;
   unsigned int money;
-  std::string status;
+  bool bankrupted;
 };
 
 #endif

@@ -13,7 +13,7 @@ public:
 
   size_t diceNum() { return dice.size(); }
 
-  int rollDice() {
+  size_t rollDice() {
     int x = 0;
     for (auto const &d : dice) {
       x += d->roll();
