@@ -13,6 +13,10 @@
 #include "player.h"
 #include "resetable.h"
 
+/*
+  Plansza pamięta jakie pola występują w grze w odpowiedniej kolejności 
+  oraz gdzie znajduje się dany gracz i go przemieszcza. 
+*/
 class Board : public Resetable {
 public:
   Board() : fields({}), positions() {}
@@ -53,12 +57,6 @@ public:
 
   std::string getPlayerFieldName(Player &p) {
     return fields[positions[p.getName()]]->getName();
-  }
-
-  void checkConditions() {
-    if (fields.size() != 12) {
-      throw std::runtime_error{"@todo board.checkConditions()"};
-    }
   }
 
   void reset() {

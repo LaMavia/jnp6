@@ -11,9 +11,20 @@
 #include "player.h"
 #include "weight.h"
 #include "worldcup.h"
+#include "exceptions.h"
+
+#define MAX_DICE_NUM 2
+#define MIN_DICE_NUM 2
+#define MAX_PLAYERS_NUM 11
+#define MIN_PLAYERS_NUM 2
+
 
 void dbg(std::string s) { std::cerr << s << std::endl; }
 
+/*
+  Ta klasa ma dostęp do kostek, planszy, vectora graczy i tablicy wyników
+  oraz koordynuje działania między nimi.
+*/
 class WorldCup2022 : public WorldCup {
 public:
   WorldCup2022()
@@ -38,7 +49,11 @@ public:
     board.addField(std::make_shared<PenaltyKickField>(180));
   }
 
-  void addDie(std::shared_ptr<Die> die) { dice.addNextDie(die); };
+  void addDie(std::shared_ptr<Die> die) { 
+    if (die != NULL){
+      dice.addNextDie(die);
+    } 
+  };
 
   void addPlayer(const std::string &name) {
     players.push_back(std::make_shared<Player>(name));
@@ -50,7 +65,6 @@ public:
 
   void play(unsigned int rounds) {
     checkConditions();
-    // setPlayersOnStart();
     for (unsigned int i = 1; i <= rounds && !isOver; i++) {
       dbg("Start rundy: " + std::to_string(i));
       makeRound();
@@ -60,11 +74,20 @@ public:
 private:
   void checkConditions() {
     auto nPlayers = players.size();
-    if (nPlayers < 2 || nPlayers > 11) {
-      throw std::runtime_error{"@todo WorldCup.checkConditions()"};
+    auto nDice = dice.diceNum();
+    if (nDice > MAX_DICE_NUM){
+      throw TooManyDiceException();
+    }
+    if (nDice < MIN_DICE_NUM){
+      throw TooFewDiceException();
+    }
+    if (nPlayers > MAX_PLAYERS_NUM){
+      throw TooManyPlayersException();
+    }
+    if (nPlayers < MIN_PLAYERS_NUM){
+      throw TooFewPlayersException();
     }
 
-    board.checkConditions();
   }
 
   void setPlayersOnStart() {
@@ -110,6 +133,7 @@ private:
       nStillInGame++;
     }
   }
+  
 
 private:
   Dice dice;
@@ -119,5 +143,7 @@ private:
   unsigned int roundNumber;
   bool isOver;
 };
+
+
 
 #endif /* WORLDCUP2022_H */

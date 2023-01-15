@@ -3,6 +3,9 @@
 
 #include <exception>
 
+/*
+    Enum reprezentujący możliwe rodzaje meczy.
+*/
 enum Weight { Friendly, Deciding, Final };
 double doubleOfWeight(const Weight &w) {
   switch (w) {

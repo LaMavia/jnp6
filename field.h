@@ -7,6 +7,11 @@
 #include "player.h"
 #include "weight.h"
 
+
+/*
+  Pola w grze mają zaimplementowane metody, które korzystają z metod gracza 
+  modyfikujących jego stan konta.
+*/
 class Field {
 public:
   Field() = default;
@@ -21,6 +26,9 @@ public:
   virtual std::string getName() const = 0;
 };
 
+/*
+    Pole reprezentujące mecz.
+*/
 class GameField : public Field {
 public:
   GameField(unsigned int penalty, Weight weight, std::string &&title)
@@ -42,6 +50,9 @@ protected:
   std::string title;
 };
 
+/*
+    Pole reprezentujące żółtą kartkę.
+*/
 class YellowCardField : public Field {
 public:
   YellowCardField(unsigned int timeout) : timeout(timeout), players({}) {}
@@ -64,6 +75,9 @@ protected:
   std::unordered_map<std::string, unsigned int> players;
 };
 
+/*
+    Pole reprezentujące pole startowe.
+*/
 class StartField : public Field {
 public:
   StartField() = default;
@@ -82,6 +96,9 @@ private:
   unsigned int prize;
 };
 
+/*
+    Pole reprezentujące rzut karny.
+*/
 class PenaltyKickField : public Field {
 public:
   PenaltyKickField(unsigned int penalty) : penalty(penalty) {}
@@ -92,6 +109,9 @@ private:
   unsigned int penalty;
 };
 
+/*
+    Pole reprezentujące bukmachera.
+*/
 class BookmakerField : public Field {
 public:
   BookmakerField(unsigned int penalty, unsigned int bonus, size_t frequency)
@@ -113,6 +133,9 @@ private:
   size_t visitCount;
 };
 
+/*
+    Pole reprezentujące dzień wolny.
+*/
 class DayOffField : public Field {
 public:
   std::string getName() const { return "Dzień wolny od treningu"; }

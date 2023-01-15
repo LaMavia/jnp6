@@ -5,6 +5,11 @@
 #include <memory>
 #include "worldcup.h"
 
+/*
+  Ta klasa przechowuje kości używane w grze i udostępnia metodę 
+  zwracającą wynik rzutu wszystkimi kośćmi.
+*/
+
 class Dice {
 public:
   Dice() : dice({}) {}

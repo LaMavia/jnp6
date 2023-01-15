@@ -4,6 +4,11 @@
 #include "resetable.h"
 #include <string>
 
+
+/*
+  Gracz zna tylko stan swojego konta oraz czy jest jeszcze w grze.
+*/
+
 class Player : public Resetable {
 public:
   Player(std::string name) : name(name) { reset(); }
