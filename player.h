@@ -1,8 +1,13 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "resetable.h"
 #include <string>
+
+#include "resetable.h"
+
+/*
+  Gracz zna tylko stan swojego konta oraz czy jest jeszcze w grze.
+*/
 
 class Player : public Resetable {
 public:
@@ -26,7 +31,7 @@ public:
   const std::string &getName() const { return name; }
   bool isStillInGame() const { return !bankrupted; }
 
-  void reset() {
+  void reset() override {
     money = 1000;
     bankrupted = false;
   }
