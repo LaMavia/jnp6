@@ -1,12 +1,13 @@
 #ifndef DICE_H
 #define DICE_H
 
-#include <vector>
 #include <memory>
+#include <vector>
+
 #include "worldcup.h"
 
 /*
-  Ta klasa przechowuje kości używane w grze i udostępnia metodę 
+  Ta klasa przechowuje kości używane w grze i udostępnia metodę
   zwracającą wynik rzutu wszystkimi kośćmi.
 */
 

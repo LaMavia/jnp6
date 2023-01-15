@@ -2,7 +2,7 @@
 #define RESETABLE_H
 
 class Resetable {
-  public:
+public:
   virtual void reset() = 0;
 };
 

@@ -14,8 +14,8 @@
 #include "resetable.h"
 
 /*
-  Plansza pamięta jakie pola występują w grze w odpowiedniej kolejności 
-  oraz gdzie znajduje się dany gracz i go przemieszcza. 
+  Plansza pamięta jakie pola występują w grze w odpowiedniej kolejności
+  oraz gdzie znajduje się dany gracz i go przemieszcza.
 */
 class Board : public Resetable {
 public:
@@ -59,7 +59,7 @@ public:
     return fields[positions[p.getName()]]->getName();
   }
 
-  void reset() {
+  void reset() override {
     fields.clear();
     positions.clear();
   }
